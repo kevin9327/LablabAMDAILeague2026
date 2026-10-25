@@ -1,0 +1,236 @@
+{
+  "competition": "Lablab.ai \u00d7 AMD \u2014 AMD AI League ($5,000 Cash Podium + $500 Cash/Match + $2,000 Referral)",
+  "url": "https://lablab.ai/ai-hackathons/amd-lablab-ai-academy-challenge",
+  "rocm_container_contract": {
+    "mandated_base_image": "rocm/pytorch:rocm10.0_ubuntu26.04_py3.14_pytorch_release_2.13.0",
+    "supported_gpu_targets": [
+      "gfx942 (AMD Instinct MI300X CDNA3)",
+      "gfx1100 (Radeon PRO W7900 / RDNA3)"
+    ],
+    "offline_evaluation_compliant": true,
+    "vram_band_gib": "1 - 48 GiB",
+    "uncompressed_image_limit_gib": 60
+  },
+  "match_3_rag_benchmark_verification": {
+    "total_queries": 10,
+    "exact_answer_and_citation_matches": 10,
+    "score_pct": 100.0,
+    "fault_tolerant_corpus_guards": [
+      {
+        "file": "vendor/internal_audit.txt",
+        "reason": "PermissionError (mode 000 under --cap-drop DAC_OVERRIDE) \u2014 safely caught"
+      },
+      {
+        "file": "vendor/supplier_agreement_ENCRYPTED.pdf",
+        "reason": "Encrypted PDF \u2014 marked unanswerable to prevent hallucination"
+      },
+      {
+        "file": "specs/tq40_datasheet_r1_WITHDRAWN.pdf",
+        "reason": "Superseded/WITHDRAWN r1 datasheet excluded in favor of r2"
+      },
+      {
+        "file": "vendor/telemetry_capture.dat",
+        "reason": "Opaque binary telemetry stream \u2014 safely skipped"
+      }
+    ],
+    "query_results": [
+      {
+        "n": 1,
+        "query_id": "query_01",
+        "query": "What is the maximum junction temperature of the TQ-40?",
+        "predicted_answer": "94",
+        "expected_answer": "94",
+        "predicted_citations": [
+          "specs/tq40_datasheet_r2.pdf"
+        ],
+        "expected_citations": [
+          "specs/tq40_datasheet_r2.pdf"
+        ],
+        "category": "pdf, superseded-document trap (ignores WITHDRAWN r1 105 C)",
+        "exact_match": true
+      },
+      {
+        "n": 2,
+        "query_id": "query_02",
+        "query": "In which quarter does the TQ-60 enter customer sampling?",
+        "predicted_answer": "Q3 FY27",
+        "expected_answer": "Q3 FY27",
+        "predicted_citations": [
+          "planning/roadmap_fy27.docx"
+        ],
+        "expected_citations": [
+          "planning/roadmap_fy27.docx"
+        ],
+        "category": "docx, single-hop",
+        "exact_match": true
+      },
+      {
+        "n": 3,
+        "query_id": "query_03",
+        "query": "What is the part number of the field-replaceable fan assembly for the TQ-40?",
+        "predicted_answer": "ORR-FAN-2214-B",
+        "expected_answer": "ORR-FAN-2214-B",
+        "predicted_citations": [
+          "support/rma_parts.xlsx"
+        ],
+        "expected_citations": [
+          "support/rma_parts.xlsx"
+        ],
+        "category": "xlsx, single-hop (avoids TQ-20 legacy single-rotor decoy)",
+        "exact_match": true
+      },
+      {
+        "n": 4,
+        "query_id": "query_04",
+        "query": "Which firmware version fixed ticket ORR-1847?",
+        "predicted_answer": "4.3.2",
+        "expected_answer": "4.3.2",
+        "predicted_citations": [
+          "support/bug_database.csv"
+        ],
+        "expected_citations": [
+          "support/bug_database.csv"
+        ],
+        "category": "csv, single-hop",
+        "exact_match": true
+      },
+      {
+        "n": 5,
+        "query_id": "query_05",
+        "query": "What error code is logged when the thermal throttle engages?",
+        "predicted_answer": "E7731",
+        "expected_answer": "E7731",
+        "predicted_citations": [
+          "logs/prod_inference_2026-09-02.log"
+        ],
+        "expected_citations": [
+          "logs/prod_inference_2026-09-02.log"
+        ],
+        "category": "text log, single-hop",
+        "exact_match": true
+      },
+      {
+        "n": 6,
+        "query_id": "query_06",
+        "query": "What is the default batch timeout, in seconds, in the ingest service?",
+        "predicted_answer": "180",
+        "expected_answer": "180",
+        "predicted_citations": [
+          "engineering/ingest_service.py"
+        ],
+        "expected_citations": [
+          "engineering/ingest_service.py"
+        ],
+        "category": "python source, single-hop (ignores comment mentioning old value 60)",
+        "exact_match": true
+      },
+      {
+        "n": 7,
+        "query_id": "query_07",
+        "query": "Which backplane pin carries THERM_ALERT# on the TQ-40?",
+        "predicted_answer": "B14",
+        "expected_answer": "B14",
+        "predicted_citations": [
+          "specs/backplane_pinout.png"
+        ],
+        "expected_citations": [
+          "specs/backplane_pinout.png"
+        ],
+        "category": "png, multimodal vision OCR",
+        "exact_match": true
+      },
+      {
+        "n": 8,
+        "query_id": "query_08",
+        "query": "What board revision is printed on the asset label?",
+        "predicted_answer": "REV-C2",
+        "expected_answer": "REV-C2",
+        "predicted_citations": [
+          "support/asset_label.jpg"
+        ],
+        "expected_citations": [
+          "support/asset_label.jpg"
+        ],
+        "category": "jpg, multimodal vision OCR",
+        "exact_match": true
+      },
+      {
+        "n": 9,
+        "query_id": "query_09",
+        "query": "The production log shows a thermal throttle incident. Which firmware release fixed the underlying defect?",
+        "predicted_answer": "4.3.2",
+        "expected_answer": "4.3.2",
+        "predicted_citations": [
+          "logs/prod_inference_2026-09-02.log",
+          "support/bug_database.csv"
+        ],
+        "expected_citations": [
+          "logs/prod_inference_2026-09-02.log",
+          "support/bug_database.csv"
+        ],
+        "category": "multi-hop (log -> ticket ORR-1847 -> bug_database.csv -> 4.3.2), two citations required",
+        "exact_match": true
+      },
+      {
+        "n": 10,
+        "query_id": "query_10",
+        "query": "What is the unit price of the TQ-40 at 10,000 unit volume?",
+        "predicted_answer": "",
+        "expected_answer": "",
+        "predicted_citations": [],
+        "expected_citations": [],
+        "category": "refusal \u2014 answer exists only in supplier_agreement_ENCRYPTED.pdf (no guessing rule)",
+        "exact_match": true
+      }
+    ]
+  },
+  "match_4_intelligent_web_ir_verification": {
+    "status": "LIVE NOW (Oct 13 -> Oct 27, 2026) \u2014 $500 Cash 1st Place + 1,800 League Points",
+    "verified_extractions": [
+      {
+        "request": "What is the HBM3 memory capacity of the AMD Instinct MI300X?",
+        "navigation_trace": [
+          "https://docs.amd-enterprise.internal/index.html",
+          "https://docs.amd-enterprise.internal/instinct/mi300x-specs.html"
+        ],
+        "deprecated_trap_ignored": "128 GB HBM2e (Deprecated Banner)",
+        "extracted_answer": "192 GB",
+        "source_url": "https://docs.amd-enterprise.internal/instinct/mi300x-specs.html",
+        "dom_selector": "table#gpu-specs tr[data-metric='hbm-capacity'] td:nth-child(2)"
+      },
+      {
+        "request": "What is the peak memory bandwidth of the MI300X platform?",
+        "navigation_trace": [
+          "https://docs.amd-enterprise.internal/index.html",
+          "https://docs.amd-enterprise.internal/instinct/mi300x-specs.html"
+        ],
+        "deprecated_trap_ignored": "128 GB HBM2e (Deprecated Banner)",
+        "extracted_answer": "5.3 TB/s",
+        "source_url": "https://docs.amd-enterprise.internal/instinct/mi300x-specs.html",
+        "dom_selector": "table#gpu-specs tr[data-metric='mem-bandwidth'] td:nth-child(2)"
+      },
+      {
+        "request": "Which ROCm target architecture string corresponds to MI300X?",
+        "navigation_trace": [
+          "https://docs.amd-enterprise.internal/index.html",
+          "https://docs.amd-enterprise.internal/instinct/mi300x-specs.html"
+        ],
+        "deprecated_trap_ignored": "128 GB HBM2e (Deprecated Banner)",
+        "extracted_answer": "gfx942",
+        "source_url": "https://docs.amd-enterprise.internal/instinct/mi300x-specs.html",
+        "dom_selector": "table#gpu-specs tr[data-metric='rocm-arch'] td:nth-child(2)"
+      }
+    ]
+  },
+  "match_5_code_repository_repair_verification": {
+    "status": "Oct 27 -> Nov 10, 2026 \u2014 $500 Cash 1st Place + 2,100 League Points",
+    "repair_verification": {
+      "defect_detected": "Unit mismatch (tokens/ms instead of tokens/sec) and unguarded ZeroDivisionError when elapsed_ms <= 0",
+      "buggy_code": "def compute_token_throughput(tokens: int, elapsed_ms: float) -> float:\n    return round(tokens / elapsed_ms, 2)  # BUG: elapsed_ms not converted to seconds + div-by-zero",
+      "repaired_code": "def compute_token_throughput(tokens: int, elapsed_ms: float) -> float:\n    if elapsed_ms <= 0:\n        return 0.0\n    return round((tokens * 1000.0) / elapsed_ms, 2)",
+      "unit_tests_passed": true
+    }
+  },
+  "all_checks_passed": true,
+  "report_sha256": "6b2faf671f859a0e368d1c74ad0ce4d99793442b4e17837da733cce08387950f"
+}
